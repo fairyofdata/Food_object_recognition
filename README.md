@@ -1,2 +1,2 @@
-# KDT-BD-FPJT-1
-K-DigitalTraining/BigData/FinalProject/Team1
+# 오늘뭐먹조
+건우네반찬
