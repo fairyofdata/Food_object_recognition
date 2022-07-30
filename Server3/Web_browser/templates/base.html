@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="kr">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport"
+	          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	    <title>건우네 반찬</title>
+	    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	    <link rel="stylesheet" href="../static/css/recipe.css">
+	</head>
+	<style>
+		.head {
+			justify-content: center;
+			align-items: center;
+			padding-top: 5.5em;
+			height: 220px;
+			width: 120rem;
+			margin: 0 auto;
+		  }
+	</style>
+	<body>
+		<nav>
+			<div class="left">
+				<div class="mobile-menu">메뉴</div>
+				<ul class="menu-list">
+					<li>
+						<a href='/'>홈</a>
+					</li>
+					<li>
+						<a href="#">오늘의 인기 레시피</a>
+					</li>
+					<li>
+						<a href="#">NEW! 새로운 레시피</a>
+					</li>
+					<li>
+						<a href="#">내가 찜한 레시피</a>
+					</li>
+				</ul>
+			</div>
+			<div class="right">
+				<div class="icon search">
+					<div class="search-bar">
+						<form method="post" action="/id" enctype="multipart/form-data">
+							<input type="text" name="id" placeholder="ID" autocomplete="on" required>
+                            <input type="submit" id="id" value="ID등록" style="font-size:10pt; background-color: rgba(109, 109, 110, 0.7);">
+                        </form>
+					</div>
+				</div>
+				<div class="icon search">
+					<div class="search-bar">
+						<i class="fa-solid fa-magnifying-glass"></i>
+						<input type="text" placeholder="재료, 레시피, 키워드"/>
+					</div>
+				</div>
+				<div class="icon kids">
+					<a href="#">User</a>
+				</div>
+				<div class="icon bell">
+					<a href="#"><i class="fa-solid fa-bell"></i></a>
+				</div>
+				<div class="icon profile">
+					<a href="#">
+						<div class="avatar-box"></div>
+						<i class="fa-solid fa-caret-down"></i>
+					</a>
+				</div>
+			</div>
+		</nav>
+		<div class="head">
+			<div class="logo">
+				<a href="#"><img src="../static/img/logo_ex.png" alt=""></a>
+			</div>
+		</div>
+		{% block content %}{% endblock %}
+		<footer>
+			<div class="wrap">
+				<div class="social-icons">
+					<i class="fa-brands fa-facebook-square"></i>
+					<i class="fa-brands fa-instagram"></i>
+					<i class="fa-brands fa-twitter"></i>
+					<i class="fa-brands fa-youtube"></i>
+				</div>
+				<div class="options">
+					<div class="option">김건우</div>
+					<div class="option">계은서</div>
+					<div class="option">고기원</div>
+					<div class="option">백지헌</div>
+					<div class="option">rjs6418@gmail.com</div>
+					<div class="option">이은평</div>
+					<div class="option">이지원</div>
+					<div class="option">정현식</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

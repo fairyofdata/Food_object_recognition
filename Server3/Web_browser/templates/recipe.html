@@ -1,0 +1,173 @@
+{% if ex %} 
+{% with messages = get_flashed_messages() %} 
+    {% if messages %} 
+        <script>
+            alert("{{messages[-1]}}")
+        </script>
+    {% endif %} 
+{% endwith %} 
+{% endif %} 
+
+{% extends "base.html" %}
+{% block content %}
+<style>
+    section {
+        width: 60%;
+        height: 90%;
+        margin: 0 auto;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1.5em;
+        padding-left: 8.0em;
+        padding-right: 8.0em;
+        background-image: url("../static/img/bg4.jpg");
+        background-repeat : no-repeat;
+        background-size: cover;
+        padding-bottom: 4.0em;
+    }
+    section .content-list {
+      padding-top: 4em;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    section .content-list .slider {
+      width: 90%;
+      height: 43em;
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      padding-top: 1.5em;
+      padding-left: 1.0em;
+      padding-right: 1.0em;
+      background: rgba(237, 111, 32, 0.5);
+      margin: 0 auto;
+    }      
+    section .content-list h1 {
+        font-size: 3rem;
+        margin-left: 2rem;
+        margin-bottom: 1rem;
+        margin-top: 0.5rem;
+        color:rgb(181, 87, 95)
+    }
+    section .content-list .prev {
+      font-size: 10rem;
+      position: absolute;
+      top: 40%;
+      left: 10px;
+      transform: translateY(-10px);
+      cursor: pointer;
+      color:rgb(201, 117, 65)
+    }
+    section .content-list .next {
+      font-size: 10rem;
+      position: absolute;
+      top: 40%;
+      right: 10px;
+      transform: translateY(-10px);
+      cursor: pointer;
+      color:rgb(201, 117, 65)
+      background: rgba(207, 111, 32, 0.7);
+    }
+    section .content-list .slider .item .recipe-info h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
+    }     
+    section .content-list .slider .item .lack-info h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
+      }     
+    section .content-list .slider .item .lack-info {
+        padding-bottom: 0.2rem;
+        margin-bottom: 0.5rem;
+        vertical-align: bottom;
+    }     
+    #ex-sub {
+        width: 100px;      
+        height: 30px; 
+        border:1x solid #ff0080;  
+        background-Color:#ffe6f2; 
+        font:12px 굴림;   
+        font-weight:bold;   
+        color:#ff0880; 
+    }
+</style>
+<main>
+</main>
+<section>
+    <div class="content-list">
+        <h1>바로 요리 가능한 레시피</h1>
+        <div class="slider">
+            {% for prep_recipe in prep_recipes %}
+            <div class="item">
+                <a href= {{ url_for('send_tomysql') }}?{{ prep_recipe["_source.recipe_url"] }}&{{ prep_recipe["_source.recipe_code"] }} target="_blank">
+                    <img src={{ prep_recipe["_source.img_src"] }} alt="None">
+                </a>
+                <div class="recipe-info">
+                    <h2>레시피 명: {{ prep_recipe["_source.recipe_nm"] }}</h2>
+                    <h2>식재료 명: {{ prep_recipe["_source.ingredients_nm"] }}</h2>
+                    <h2>조리 시간: {{ prep_recipe["_source.cooking_time"] }}</h2>
+                    <h2>조리 수준: {{ prep_recipe["_source.level_nm"] }}</h2>
+                    <h2>기준 인분: {{ prep_recipe["_source.qnt"] }}</h2>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="prev"><i class="fa-solid fa-angle-right prev-arrow"></i></div>
+        <div class="next"><i class="fa-solid fa-angle-right"></i></div>
+    </div>
+    <div class="content-list">
+        <h1>조금만 더 있으면 가능한 레시피</h1>
+        <div class="slider">
+            {% for lack_recipe in lack_recipes %}
+            <div class="item">
+                <a href= {{ url_for('send_tomysql') }}?{{ lack_recipe["_source.recipe_url"] }}&{{ lack_recipe["_source.recipe_code"] }} target="_blank">
+                    <img src={{ lack_recipe["_source.img_src"] }} alt="None">
+                </a>    
+                <div class="recipe-info">
+                    <h2>레시피 명: {{ lack_recipe["_source.recipe_nm"] }}</h2>
+                    <h2>식재료 명: {{ lack_recipe["_source.ingredients_nm"] }}</h2>
+                    <h2>조리 시간: {{ lack_recipe["_source.cooking_time"] }}</h2>
+                    <h2>난이도 명: {{ lack_recipe["_source.level_nm"] }}</h2>
+                    <h2>기준 인분: {{ lack_recipe["_source.qnt"] }}</h2>
+                </div>
+                <div class="lack-info">
+                    <h2>부족한 식재료: 
+                        {% for lil in lack_recipe["lack_ingredients_link"] %}
+                        <a href= {{ lil["link"] }} target="_blank" style="font-size:15pt; color:rgba(220, 149, 120, 1.0)">{{ lil["lack_ingredients"] }}</a>
+                        {% endfor %}
+                        <form method="post" action="/ex_req/{{ lack_recipe["_source.recipe_code"] }}" enctype="multipart/form-data">
+                            <p><input type="hidden" name="ex_recipe_code" value={{ lack_recipe["_source.recipe_code"] }} autocomplete="on" required></p>
+                            <p><input type="submit" id="ex-sub" value="식재료 교환요청" style="font-size:10pt; background-color: rgba(109, 109, 110, 0.7);"></p>
+                        </form>
+                    </h2>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="prev"><i class="fa-solid fa-angle-right prev-arrow"></i></div>
+        <div class="next"><i class="fa-solid fa-angle-right"></i></div>
+    </div>
+</section>
+<script>
+    const next = document.querySelectorAll('.next');
+    const prev = document.querySelectorAll('.prev');
+    const slider = document.querySelectorAll('.slider')
+    for(let i =0;i<slider.length;i++){
+        makeSlider(slider[i],prev[i],next[i]);
+    }
+        
+    function makeSlider(element,prev,next){
+        next.addEventListener('click',()=>{
+            const offsetX = element.offsetWidth;
+            element.scrollBy(offsetX,0)
+        })
+        prev.addEventListener('click',()=>{
+            const offsetX = element.offsetWidth;
+            element.scrollBy(-offsetX,0)
+        })
+    }
+</script>
+{% endblock %}

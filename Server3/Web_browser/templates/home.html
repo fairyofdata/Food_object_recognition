@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    section .status {
+        justify-content: center;
+        vertical-align: center;  
+        margin: 0 auto;
+        padding-top: 4.0em;
+        width: 30em;      
+        height: 10em;      
+    }
+    section .status h1{
+        font-size: 3rem;
+    }
+    article {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 6.0em;
+        padding-bottom: 12.0em;
+      }
+    article .recognition {
+        margin-left: 10em;
+        justify-content: center;
+        vertical-align: center;
+        padding-right: 4em;
+        padding-left: 4em;
+      }
+    article .req-recipe {
+      margin-right: 10em;
+      justify-content: center;
+      vertical-align: center;
+      padding-right: 4em;
+      padding-left: 4em;
+    }
+    section {
+        width: 60%;
+        height: 90%;
+        margin: 0 auto;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1.5em;
+        padding-left: 8.0em;
+        padding-right: 8.0em;
+        background-image: url("../static/img/bg3.jpeg");
+        background-repeat : no-repeat;
+        background-size: cover;
+      }
+    #yolosub {
+        width: 100px;      
+        height: 30px; 
+        float: right;
+        border:1x solid #ff0080;  
+        background-Color:#ffe6f2; 
+        font:12px 굴림;   
+        font-weight:bold;   
+        color:#ff0080;    
+    }
+    #ingresub {
+        background-color:black; 
+        color:white; 
+        width: 100px; 
+        height: 30px;
+    }
+
+    #uploadimg {
+        width: 100px;      
+        height: 30px; 
+        color: black;    
+    }
+    textarea {
+        width: 270.0px;
+        height: 180.0px;
+        border: none;
+        resize: none;
+        background-color:white;
+        color:black;
+        font-size:15px;
+      }
+    article .req-recipe .recipe-list {
+        display:flex
+    }
+</style>
+<section>
+    <div class=status>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <h1>{{ messages[-1] }}</h1>
+        {% endif %}
+        {% endwith %}
+    </div>
+    <article>
+        <div class="recognition">
+            {% if filename %}
+            <div class="yolo">
+                <form method="post" action="/recognition/" enctype="multipart/form-data">
+                    <p><input type="hidden" name="filename" value={{filename}} autocomplete="on" required></p>
+                    <p><input id="yolosub" type="submit" value="식재료 인식"></p>
+                </form>
+                <p><img src="{{ url_for('display_image', filename=filename) }}" style="width: 20vw; min-width: 112px;"></p>
+                <li>{{filename}}</li>
+            </div>
+            {% endif %}
+            <div class="upload">
+                <form method="post" action="/" enctype="multipart/form-data">
+                    <dl>
+                        <p><input id="findimg" type="file" name="file" autocomplete="on" required></p>
+                    </dl>
+                    <p><input id="uploadimg" type="submit" value="도마 등록"></p>
+                </form>
+            </div>
+        </div>
+        <div class="req-recipe">
+            <form method="post" action="/recipe_req/" enctype="multipart/form-data">
+                <p><input type="hidden" name="userid" value={{userid}} autocomplete="on" required></p>
+                <p><input id="ingresub" type="submit" value="오늘의 레시피는?"></p>
+                <div class="recipe-list">
+                    <p><textarea name="ingredients" placeholder="오늘의 식재료">{% for ingredient in ingredients %}
+{{ingredient}}{% endfor %}</textarea></p>
+                    <p><textarea name="essential_ingredients" placeholder="필수 식재료">{{essential_ingredients}}</textarea></p>
+                </div>
+                <div class="recipe-list">
+                    <p><textarea name="basic_ingredients" placeholder="기본 식재료">{% for basic_ingredient in basic_ingredients %}
+{{basic_ingredient}}{% endfor %}</textarea></p>
+                    <p><textarea name="allergy" placeholder="알러지 식재료">{% for allerg in allergy %}
+{{allerg}}{% endfor %}</textarea></p>
+                    <p><input type="hidden" name="filename" value={{filename}} autocomplete="on" required></p>
+                </div>
+            </form>
+            {% if ingredients %}
+                <div class="icon search">
+                    <div class="search-bar">
+                        <form method="post" action="/ingrecome" enctype="multipart/form-data">
+                            <p><input type="hidden" name="filename" value={{filename}} autocomplete="on" required></p>
+                            <p><textarea name="ingredients" name="hide" style="display:none;">{% for ingredient in ingredients %}{{ingredient}}, {% endfor %}</textarea></p>
+							<input type="text" name="userid" placeholder="ID" autocomplete="on" required style="font-size:10pt; background-color: rgba(109, 109, 110, 0.7);">
+                            <input type="submit" id="id" value="저장된 식재료 불러오기" style="font-size:10pt; background-color: rgba(109, 109, 110, 0.7);">
+                        </form>
+					</div>
+				</div>
+            {% endif %}
+        </div>
+    </article>
+</section>
+{% endblock %}
