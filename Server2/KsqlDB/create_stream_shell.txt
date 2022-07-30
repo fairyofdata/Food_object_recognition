@@ -1,0 +1,16 @@
+
+#매칭데이터 스트림
+CREATE STREAM ex_requests (userid VARCHAR, offer_ingredients_code BIGINT, lack_recipe_code VARCHAR, lack_ingredients_code BIGINT, timestamp TIMESTAMP, latitude DECIMAL(16, 14), longitude DECIMAL(17, 14)) WITH (kafka_topic='EXREQUESTS', value_format='json', partitions=1);
+CREATE STREAM ex_requests_reverse (userid VARCHAR, offer_ingredients_code BIGINT, lack_recipe_code VARCHAR, lack_ingredients_code BIGINT, timestamp TIMESTAMP ,latitude DECIMAL(16, 14), longitude DECIMAL(17, 14)) WITH (kafka_topic='EXREQUESTS', value_format='json', partitions=1);
+
+#매칭 조인 스트림
+CREATE STREAM matchuser WITH (KAFKA_TOPIC='MATCHUSER') AS 
+SELECT rq.userid, rq.lack_ingredients_code, 
+       rv.*, 
+       geo_distance(rq.latitude, rq.longitude, rv.latitude, rv.longitude, 'km') AS ex_dist_km
+FROM ex_requests rq 
+INNER JOIN ex_requests_reverse rv WITHIN 2 MINUTES 
+ON rq.lack_ingredients_code = rv.offer_ingredients_code 
+WHERE rq.offer_ingredients_code = rv.lack_ingredients_code 
+HAVING geo_distance(rq.latitude, rq.longitude, rv.latitude, rv.longitude, 'km') < 1
+EMIT CHANGES;

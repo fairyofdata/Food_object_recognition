@@ -1,0 +1,71 @@
+version: '3'
+services:
+  zookeeper2:
+    image: confluentinc/cp-zookeeper:7.0.0
+    hostname: zookeeper2
+    container_name: zookeeper2
+    ports:
+      - "2182:2182"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2182
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - ./DB/kafka_ex/zookeeper/data:/data
+      - ./DB/kafka_ex/zookeeper/datalog:/datalogco
+
+  kafka4:
+    image: confluentinc/cp-kafka:7.0.0
+    hostname: kafka4
+    container_name: kafka4
+    depends_on:
+      - zookeeper2
+    ports:
+      - "9094:9094"
+    environment:
+      KAFKA_BROKER_ID: 4
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper2:2182'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka4:29094,PLAINTEXT_HOST://localhost:9094
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    volumes:
+      - ./DB/kafka_ex/kafka4/data:/tmp/kafka-logs      
+
+  ksqldb-server:
+    image: confluentinc/ksqldb-server:0.23.1
+    hostname: ksqldb-server
+    container_name: ksqldb-server
+    depends_on:
+      - kafka4
+    ports:
+      - "8088:8088"
+    environment:
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_BOOTSTRAP_SERVERS: kafka4:29094
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+
+  ksqldb-cli:
+    image: confluentinc/ksqldb-cli:0.23.1
+    container_name: ksqldb-cli
+    depends_on:
+      - kafka4
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true
+  
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 1111
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./DB/mysql/data:/var/lib/mysql
+    
