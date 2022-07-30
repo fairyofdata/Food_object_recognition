@@ -1,0 +1,36 @@
+docker run -d -p 80:80 docker/getting-started
+docker-compose up -d
+------------------------------------------------------
+%% Kafka %%
+
+#spark
+pyspark
+
+API
+python3 ./request_recipe.py
+
+#python-kafka
+python3 ./searchrecipe_elastic.py
+python3 ./load_user_input_data_mysql.py
+python3 ./recommand_spark.py
+python3 ./load_ex_ingredients_mysql.py
+
+---------------------------------------------------
+%% KSQLDB $$
+docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
+
+python3 ./request_ex.py
+python3 ./ex_hope_recipe.py
+python3 ./response_match.py
+------------------------------------------------------
+$$MysqlDB$$
+docker exec -it mysql /bin/bash
+------------------------------------------------------
+$$YOLO$$
+python3 ./restapi.py               -yolo5
+------------------------------------------------------
+%%Web$$
+python3 ./main.py                  -main web
+------------------------------------------------------
+##Storage
+$$ MySQL $$
