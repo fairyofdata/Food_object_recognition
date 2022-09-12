@@ -2,13 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-'''
-레시피 목록 데이터 및 이미지 링크 크롤링
-'''
+
+#레시피 목록 데이터 및 이미지 링크 크롤링(만개의 레시피)
 RECIPE_ID_lst = []
 img_src_lst = []
 
-df = pd.DataFrame(columns=['recipe_code', 'img_src'])
+recipe_df = pd.DataFrame(columns=['recipe_code', 'img_src'])
 
 for n in range(4539):
     print(n)
@@ -32,7 +31,7 @@ for n in range(4539):
         img_src_lst.append(img_src_data)
 
 # DataFrame에 element 추가
-df['recipe_code'] = RECIPE_ID_lst
-df['img_src'] = img_src_lst
+recipe_df['recipe_code'] = RECIPE_ID_lst
+recipe_df['img_src'] = img_src_lst
 
-df.to_csv("./recipedb_csv/recipe10k_img.csv", index=False, encoding='utf-8-sig')
+recipe_df.to_csv("./recipedb_csv/recipe10k_img.csv", index=False, encoding='utf-8-sig')

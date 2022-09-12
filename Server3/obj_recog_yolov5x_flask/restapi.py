@@ -4,9 +4,8 @@ from PIL import Image
 import torch
 from flask import Flask, request
 
-'''
-yolo v5 응답
-'''
+
+#yolo v5 응답
 app = Flask(__name__)
 
 @app.route("/yolov5x-recipe/", methods=["POST"])

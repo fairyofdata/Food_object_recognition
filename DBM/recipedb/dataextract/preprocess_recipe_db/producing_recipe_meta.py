@@ -1,8 +1,6 @@
 import pandas as pd
 
-'''
-레시피 메타 데이터 생성
-'''    
+#기존 등록되어 있는 레시피와 레시피코드 매칭 후 메타데이터 형태로 저장
 recipe_df = pd.read_csv("./recipe10k_db_ud.csv").astype(str)
 recipe_df = recipe_df[['recipe_nm','recipe_code']]
 

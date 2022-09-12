@@ -7,9 +7,7 @@ import recipe_mysqltocsv
 
 
 #미완성
-'''
-주기적 모델 훈련 파이프
-'''
+#주기적인 모델 업데이트를 위한 에어플로우 스케줄링 파이프라인
 default_args = {
     'start_date': datetime(2022, 1, 1)
 }

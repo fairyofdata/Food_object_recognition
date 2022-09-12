@@ -10,17 +10,16 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
 
-def log_filter(log_):
-    return (
-        log_["method"] == "Network.responseReceived"
-        and "image/jpeg" in log_["params"]["response"]["mimeType"]
-    )
-
-'''
-구글 이미지 수집 크롤러
-'''
-def kw_deinfo(name, filename, start_num):    
-    
+def crawl_googleimg_bylog(name, filename, start_num):    
+    '''
+        셀레니움 로그크롤링을 활용한 구글이미지 수집 함수
+        :param
+            name : 수집할 이미지 검색어
+            filename : 수집 후 이미지 저장 폴더 및 파일 이름
+            start_num : 파일 이름 저장 시, 넘버링 시작 번호(ex. 구글이미지51/동일한 객체를 다른 검색어로 수집 시 활용)
+        :action
+            이미지 주소값 수집 후, 저장
+    '''
     capabilities = DesiredCapabilities.CHROME
     capabilities["goog:loggingPrefs"] = {"performance": "ALL"}
     
@@ -31,8 +30,12 @@ def kw_deinfo(name, filename, start_num):
     
     if not os.path.isdir('./{}'.format(filename)):
         os.mkdir('./{}'.format(filename))
+    
+    #이미지 검색        
     url = f"https://www.google.com/search?q={name}&rlz=1C5CHFA_enKR1009KR1009&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjTueevy8P4AhXet1YBHRpJBE0Q_AUoAXoECAIQAw&biw=1440&bih=764&dpr=2"
     driver.get(url)
+    
+    #스크롤 다운
     time.sleep(0.25) 
     last_height = driver.execute_script("return document.body.scrollHeight")
     while True:
@@ -50,7 +53,8 @@ def kw_deinfo(name, filename, start_num):
             except:
                 break
         last_height = new_height
-        
+    
+    #쌓인 로그 크롤링 및 이미지 저장    
     logs_raw = driver.get_log("performance")
     logs = [json.loads(lr["message"])["message"] for lr in logs_raw]
     z = start_num
@@ -63,3 +67,16 @@ def kw_deinfo(name, filename, start_num):
             f.write(imgUrl)
         z += 1
     driver.close()
+    
+def log_filter(log_):
+    '''
+        수집한 로그의 이미지 주소값만 추출하는 함수
+        :param
+            log_ : 수집한 로그
+        :return
+            이미지 주소 값
+    '''
+    return (
+        log_["method"] == "Network.responseReceived" 
+        and "image/jpeg" in log_["params"]["response"]["mimeType"]
+    )

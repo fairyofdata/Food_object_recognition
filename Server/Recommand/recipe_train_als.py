@@ -2,9 +2,8 @@ from pyspark.ml.recommendation import ALS
 from pyspark.sql import SparkSession
 
 
-'''
-ALS 모델훈련
-'''
+
+#저장된 parquet 데이터 ALS 모델훈련
 MAX_MEMORY = "1g"
 spark = SparkSession.builder.appName("recipe-recom")\
     .config("spark.executor.memory", MAX_MEMORY)\
