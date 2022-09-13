@@ -10,7 +10,7 @@ def merge_ingredients_columns(ingredient_str):
             식재료 문자열을 리스트 형태로 리턴
     '''    
     ingredient_list = []
-    for i in x:
+    for i in ingredient_str:
         ingredient_list.append(i)
     return list(set(ingredient_list) - {'nan'})
 
