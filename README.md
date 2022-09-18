@@ -12,7 +12,8 @@ https://github.com/rjs6418/KDT_FinalProject_1/blob/master/KDT-MC-FinalProject-1%
 ### 서비스 시연 영상
 https://kuno-techblog.tistory.com/4
 ### 서비스 중심의 전체 파이프라인 구성도
-![image](https://user-images.githubusercontent.com/101792115/189577798-e11153b7-adaf-4ff5-be22-dc862cc7b827.png)
+![image](https://user-images.githubusercontent.com/101792115/190885374-eec94646-0a68-4753-82b0-8f6c1da2df11.png)
+
 
 
 
