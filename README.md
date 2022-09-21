@@ -1,18 +1,40 @@
-# 건우네반찬
-## 오늘뭐먹조
-김건우,계은서,고기원,백지헌,이은평,이지원,정현식
+# <div align="center">Project : 건우네반찬</div>
+### <div align="center">도마 위의 식재료를 객체 인식 후, <br>추출된 식재료 리스트를 기반으로 적절한 레시피를 추천 하는 서비스</div>
 
-### 도마 위의 식재료를 객체 인식 후, 추출된 식재료 리스트를 기반으로 적절한 레시피를 추천 하는 서비스
+### <div align="right">Team Name <br> 오늘뭐먹조</div>
+#### <div align="right">Team Member <br> 고기원(DS), 백지헌(DS) 이은평(DS), 이지원(DS) <br> 김건우(DE/조장), 계은서(DE), 정현식(DE)</div>
+___
+
+### <div align="center">발표자료 및 자세한 내용은 아래 프레젠테이션 PDF 참조
+<div align="center">https://github.com/rjs6418/KDT_FinalProject_1/blob/master/KDT-MC-FinalProject-1%EC%A1%B0.pdf</div>
+<br>
+<div align="center">서비스 시연 영상</div>
+<div align="center">https://kuno-techblog.tistory.com/4</div>
+
+<br><br>
+## <div align="center">프로젝트 기획 배경 및 목표</div>
+> <div align="center">코로나19 이후 비대면 및 재택근무 추이가 증가하기도 하면서 집에 머무는 시간이 크게 증가하였고,</div> 
+> <div align="center">여러가지 사회 이슈로 인한 소비자 물가 상승과 외식물가가 크게 올랐다.</div> 
+> <br>
+> <div align="center">동시에, 사람들의 요리 레시피 컨텐츠에 대한 관심도 증가와 '무소비', '무지출', '냉장고파먹기'라는 단어의 언급 빈도가 증가하면서</div>
+> <div align="center">이와 같은 서비스가 소비자들에게 필요로 할 것이라 판단되었다.</div>
+> <div align="center">현재, 비슷한 서비스 중 가장 높은 점유율을 차지하고 있는 '만개의 레시피'에서 부족하거나 더 필요로 하는 기능을 기획하였다.</div>
+<br><br>
 
 
 
-
-### 자세한 내용은 프레젠테이션 PDF 참조
-https://github.com/rjs6418/KDT_FinalProject_1/blob/master/KDT-MC-FinalProject-1%EC%A1%B0.pdf
-### 서비스 시연 영상
-https://kuno-techblog.tistory.com/4
 ### 서비스 중심의 전체 파이프라인 구성도
 ![image](https://user-images.githubusercontent.com/101792115/190885374-eec94646-0a68-4753-82b0-8f6c1da2df11.png)
+> 프로젝트를 진행하면서 중심이 되었던 구조도이다.
+>
+> 구성도 중 중심에서 가장 길게 뻗어있는 파이프가 메인서비스의 데이터 파이프라인인데,
+> 사용자로 부터 받은 식재료 사진을 받아 객체인식을 한 후, 인식된 식재료 리스트에 필요한 식재료를 추가하여 다시 전송,
+> 조리가능한 레시피를 추천 순으로 정렬하고, 해당 레시피 정보를 응답한다.
+> (이때, 응답하는 레시피는 완전히 조리가가능한 레시피와, 식재료가 1~2개 부족한 레시피를 나누어 추천한다.)
+>
+> 가장 하단의 라인은 부가적인 서비스로, 부족한 식재료를 유저간 교환할 수 있게끔 매칭기능을 구현 하였다.  
+> 
+> 메인 파이프라인 위쪽에 해당하는 영역은 서비스 이용에 필요하거나 서비스 이용 시 발생하는 데이터를 관리하는 파이프라인이다.
 
 
 
