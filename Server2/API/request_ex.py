@@ -2,9 +2,9 @@ from kafka import KafkaProducer
 from flask import Flask, request, jsonify
 import json
 
-'''
-식재료 교환 요청 정보 수신
-'''
+
+#식재료 교환 요청 정보 수신
+#향후 AJAX를 활용한 비동기처리로 레시피별 교환요청 대기를 하는 방식으로 기능 구현 계획
 app = Flask(__name__)
 
 EXINGREDIENTSTOPIC = "EXINGREDIENTS"

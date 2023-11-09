@@ -1,10 +1,6 @@
-import pandas as pd
 from elasticsearch7 import Elasticsearch
-from tqdm import tqdm
 
-'''
-elastic search index 생성
-'''
+#elastic search index 생성
 es = Elasticsearch()
 
 def make_index(es, index_name):

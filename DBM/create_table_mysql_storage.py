@@ -1,13 +1,9 @@
 import pymysql
 
-conn = pymysql.connect(host = "ec2", user = "", passwd = "", db = "svdb", charset = "utf8")
+storage_connect = pymysql.connect(host = "ec2", user = "", passwd = "", db = "svdb", charset = "utf8")
+storage_cursor = storage_connect.cursor()
 
-cursor = conn.cursor()
-
-'''
-input데이터, select데이터 테이블 생성
-'''
-
+#user_input_db -> 사용자가 레시피 추천을 요청한 식재료 데이터 테이블 생성
 sql2 = """ 
      CREATE TABLE user_input_db(
         userid VARCHAR(20) NOT NULL,
@@ -19,7 +15,7 @@ sql2 = """
  );
  """
 
-#user_select_db
+#user_select_db -> 레시피 요청 후 열람한 레시피 데이터 테이블 생성
 sql3 = """ 
     CREATE TABLE user_select_db(
         userid VARCHAR(20) NOT NULL,
@@ -30,8 +26,9 @@ sql3 = """
 );
 """
 
-cursor.execute(sql2) 
-cursor.execute(sql3) 
-conn.commit()
-conn.close()
+storage_cursor.execute(sql2) 
+storage_cursor.execute(sql3) 
+
+storage_connect.commit()
+storage_connect.close()
 
