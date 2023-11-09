@@ -8,7 +8,7 @@ import pymysql
 from pymysql.cursors import DictCursor
 
 def allowed_file(filename):
-    	return '.' in filename and filename.rsplit('.', 1)[1].lower() in set(['png', 'jpg', 'jpeg', 'gif'])
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in set(['png', 'jpg', 'jpeg', 'gif'])
 
 @app.route('/')
 def upload_form():

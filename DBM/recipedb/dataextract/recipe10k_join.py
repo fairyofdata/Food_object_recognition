@@ -1,8 +1,6 @@
 import pandas as pd
 
-'''
-수집데이터 조인
-'''
+#수집한 레시피목록/이미지 데이터와, 세부정보 데이터 조인
 recipe10k_info = pd.read_csv("./recipedb_csv/recipe10k_info.csv")
 recipe10k_img = pd.read_csv("./recipedb_csv/recipe10k_img.csv")
 

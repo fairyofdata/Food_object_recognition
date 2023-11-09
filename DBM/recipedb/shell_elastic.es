@@ -1,3 +1,4 @@
+##elasticsearch 쿼리 명령
 
 GET /_cat/indices?v
 

@@ -9,7 +9,7 @@ import pymysql
 from tkinter import *
 import random
 
-
+#임시 시연용 데이터
 def user_info_gen(userid):
 	return {
 	    "userid": userid,
@@ -63,6 +63,7 @@ def request_recipe():
 
 conn = pymysql.connect(host = "ec2", user = "", passwd = "", db = "svdb", charset = "utf8")
 cursor = conn.cursor()
+
 @app.route('/send_tomysql/', methods = ['GET', 'POST'])
 def send_tomysql():
     url = request.url
